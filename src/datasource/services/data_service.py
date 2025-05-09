@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 from typing import Optional
-from datasource.repository import GameRepository
+from datasource.repositories.repository import GameRepository
 from datasource.models.game import CurrentGame
 
 

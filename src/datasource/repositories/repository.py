@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Optional
-from .storage import GameStorage
-from .models.game import CurrentGame
+from ..storage import GameStorage
+from ..models.game import CurrentGame
 
 
 class GameRepository:
