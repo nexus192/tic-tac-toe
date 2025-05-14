@@ -1,15 +1,15 @@
 from datasource.storage import GameStorage
 from datasource.repositories.repository import GameRepository
-from datasource.services.data_service import GameService
-from domain.models.game import Game
+from datasource.services.data_service import GameDataService
+from datasource.data_mapper import GameMapper
 from domain.services.minimax import MinimaxGameService
-from web.web_mapper
+from uuid import UUID
 
 
 class Container:
 
   def __init__(self):
-    self.storage = GameStorage()
-    self.game_repo = GameRepository(self.storage)
-    self.game_service = GameService(self.game_repo)
-    self.game = None
+    self._storage = GameStorage()
+    self._game_repo = GameRepository(self._storage)
+    self.game_data_service = GameDataService(self._game_repo)
+    self.domain = MinimaxGameService()

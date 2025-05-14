@@ -1,56 +1,42 @@
-from flask import Flask, request, jsonify, url_for
-from uuid import UUID
-from web.web_mapper import WebMapper
-from domain.services.game_service import IGameService
+from flask import Flask, request, redirect, url_for, render_template
 from web.models.game import WebGame
+from di.Container import Container
+from web.web_mapper import WebMapper
 
-app = Flask(__name__)
-game_service: IGameService = None  # Будет инициализирован через DI
+app = Flask(__name__, template_folder='templates')
 
-
-@app.route('/game', methods=['POST'])
-def create_game():
-  from uuid import uuid4
-  new_game_id = uuid4()
-  return jsonify({
-      "game_url": url_for('handle_move', game_id=new_game_id, _external=True),
-      "game_id": str(new_game_id)
-  }), 201
+game = WebGame()
+di_game = Container()
+mapper = WebMapper()
 
 
-@app.route('/game/<uuid:game_id>', methods=['GET'])
-def get_game(game_id: UUID):
-  return jsonify({
-      "game_url": url_for('handle_move', game_id=game_id, _external=True),
-      "status": "Game is ready"
-  })
+@app.route('/game/<game_id>', methods=['GET', 'POST'], endpoint='game')
+def game_la(game_id):
+  if request.method == 'POST':
+    row = int(request.form['row'])
+    col = int(request.form['col'])
+    mapper.from_web_to_domain(game).make_move(row, col)
+
+  return render_template('board.html',
+                         board=game.game_board.cells,
+                         game_id=game.game_id)
 
 
-@app.route('/game/<uuid:game_id>', methods=['POST'])
-def handle_move(game_id: UUID):
-  try:
-    data = request.get_json()
-    web_game = WebGame(game_id=game_id, board=data['board'])
-    domain_game = WebMapper.from_web_to_domain(web_game)
+@app.route('/')
+def start_game():
+  return render_template('init.html')
 
-    if not game_service.validate_board(domain_game, data['board']):
-      return jsonify({"error": "Invalid board state"}), 400
 
-    row, col = game_service.get_next_move(domain_game)
-    domain_game.board.set_cell(row, col, domain_game.board.PLAYER_O)
-    is_over, winner = game_service.is_game_over(domain_game)
-    response_game = WebMapper.from_domain_to_web(domain_game)
+@app.route("/reset")
+def reset():
+  return redirect(url_for('game', game_id=game.game_id))
 
-    return jsonify({
-        "game_id": str(response_game.game_id),
-        "board": response_game.board,
-        "is_over": is_over,
-        "winner": winner,
-        "next_move_url": url_for('handle_move', game_id=game_id, _external=True)
-    })
-  except Exception as e:
-    return jsonify({"error": str(e)}), 500
+
+def get_local_ip():
+  import socket
+  return socket.gethostbyname(socket.gethostname())
 
 
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run(host='0.0.0.0', port=5000, debug=True)
+  print(f"Сервер доступен по адресу: http://{get_local_ip()}:5000")

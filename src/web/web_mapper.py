@@ -6,9 +6,8 @@ class WebMapper:
 
   @staticmethod
   def from_web_to_domain(current_game: WebGame) -> Game:
-    game = Game()
-    game.game_id = current_game.game_id
-    game.board.cells = current_game.game_board
+    game = Game(current_game.game_id)
+    game.board.cells = current_game.game_board.cells
     return game
 
   @staticmethod

@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Optional
-from ..storage import GameStorage
-from ..models.game import CurrentGame
+from datasource.storage import GameStorage
+from datasource.models.game import SourceGame
 
 
 class GameRepository:
@@ -9,8 +9,8 @@ class GameRepository:
   def __init__(self, storage: GameStorage):
     self._storage = storage
 
-  def save_game(self, game: CurrentGame) -> None:
+  def save_game(self, game: SourceGame) -> None:
     self._storage.save_game(game)
 
-  def get_game(self, game_id: UUID) -> Optional[CurrentGame]:
+  def get_game(self, game_id: UUID) -> Optional[SourceGame]:
     return self._storage.get_game(game_id)
