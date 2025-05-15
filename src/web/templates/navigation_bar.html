@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      background-color: #333;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .navbar a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .navbar a:hover {
+      background-color: #575757;
+    }
+
+    .content {
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <a href="{{ url_for('start_game') }}">Главная</a>
+    <a href="{{ url_for('new_game') }}">Новая игра</a>
+    <a href="{{ url_for('all_game') }}">Все игры</a> {# Эта ссылка должна вести на роут, который ты сам реализуешь #}
+  </div>
+
+  <div class="content">
+    {% block content %}
+    <!-- Здесь будет подставляться содержимое страниц -->
+    {% endblock %}
+  </div>
+
+</body>
+
+</html>

@@ -1,58 +1,52 @@
-<!doctype html>
-<html>
+{% extends "navigation_bar.html" %}
 
-<head>
-  <title>Крестики-Нолики</title>
-  <style>
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-template-rows: repeat(3, 100px);
-      gap: 5px;
-      margin: 50px auto;
-      width: fit-content;
-    }
+{% block content %}
+<title>Крестики-Нолики</title>
+<style>
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 5px;
+    margin: 50px auto;
+    width: fit-content;
+  }
 
-    .cell {
-      width: 100px;
-      height: 100px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 48px;
-      font-weight: bold;
-      border: 1px solid #333;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-    }
+  .cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    font-weight: bold;
+    border: 1px solid #333;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
 
-    .cell.x {
-      color: red;
-    }
+  .cell.x {
+    color: red;
+  }
 
-    .cell.o {
-      color: green;
-    }
-  </style>
+  .cell.o {
+    color: green;
+  }
+</style>
 
-</head>
-
-<body>
-  <h1 style="text-align: center;">Крестики-Нолики</h1>
-  <div class="board">
-    {% for row in range(3) %}
-    {% for col in range(3) %}
-    <form method="post" action="{{ url_for('game', game_id=game_id) }}" style="display: inline;">
-      <input type="hidden" name="row" value="{{ row }}">
-      <input type="hidden" name="col" value="{{ col }}">
-      <button class="cell {% if board[row][col] == 1 %}x{% elif board[row][col] == 2 %}o{% endif %}">
-        {% if board[row][col] == 1 %}X{% elif board[row][col] == 2 %}O{% endif %}
-      </button>
-    </form>
-    {% endfor %}
-    {% endfor %}
-  </div>
-</body>
-
-</html>
+<h1 style="text-align: center;">Крестики-Нолики</h1>
+<div class="board">
+  {% for row in range(3) %}
+  {% for col in range(3) %}
+  <form method="post" action="{{ url_for('game', game_id=game_id) }}" style="display: inline;">
+    <input type="hidden" name="row" value="{{ row }}">
+    <input type="hidden" name="col" value="{{ col }}">
+    <button class="cell {% if board[row][col] == 1 %}x{% elif board[row][col] == 2 %}o{% endif %}">
+      {% if board[row][col] == 1 %}X{% elif board[row][col] == 2 %}O{% endif %}
+    </button>
+  </form>
+  {% endfor %}
+  {% endfor %}
+</div>
+{% endblock %}
