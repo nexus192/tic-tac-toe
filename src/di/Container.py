@@ -1,9 +1,7 @@
 from datasource.storage import GameStorage
 from datasource.repositories.repository import GameRepository
 from datasource.services.data_service import GameDataService
-from datasource.data_mapper import GameMapper
 from domain.services.minimax import MinimaxGameService
-from uuid import UUID
 
 
 class Container:

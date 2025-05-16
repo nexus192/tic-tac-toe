@@ -15,6 +15,9 @@ class IGameService(ABC):
   def get_current_game(self, game_id: UUID) -> Optional[SourceGame]:
     pass
 
+  def get_all_games(self) -> dict[any]:
+    pass
+
 
 class GameDataService(IGameService):
 
@@ -26,3 +29,6 @@ class GameDataService(IGameService):
 
   def get_current_game(self, game_id: UUID) -> Optional[SourceGame]:
     return self._repo.get_game(game_id)
+
+  def get_all_games(self) -> dict[any]:
+    return self._repo.get_all_games()

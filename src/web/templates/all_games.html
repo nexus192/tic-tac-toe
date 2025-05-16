@@ -1,0 +1,10 @@
+{% extends "navigation_bar.html" %}
+
+{% block content %}
+<h1>Список всех игр</h1>
+<ul>
+  {% for game_id in games %}
+  <li><a href="{{ url_for('game', game_id=game_id) }}">Игра {{ game_id }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -14,3 +14,6 @@ class GameRepository:
 
   def get_game(self, game_id: UUID) -> Optional[SourceGame]:
     return self._storage.get_game(game_id)
+
+  def get_all_games(self) -> dict[any]:
+    return self._storage.get_all_games()

@@ -12,7 +12,10 @@ class WebMapper:
 
   @staticmethod
   def from_domain_to_web(game: Game) -> WebGame:
-    return WebGame(game_id=game.game_id, board=game.board.cells)
+    web_game = WebGame()
+    web_game.game_id = game.game_id
+    web_game.game_board.cells = game.board.cells
+    return web_game
 
   @staticmethod
   def layer_synchronisation(domain_game: Game, web_game: WebGame):
