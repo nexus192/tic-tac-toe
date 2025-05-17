@@ -70,10 +70,3 @@ class Conroller:
   def get_local_ip():
     import socket
     return socket.gethostbyname(socket.gethostname())
-
-
-if __name__ == "__main__":
-
-  controller = Conroller(app, Container(), WebMapper(), SourceMapper())
-  app.run(host='0.0.0.0', port=5000, debug=True)
-  print(f"Сервер доступен по адресу: http://{get_local_ip()}:5000")
